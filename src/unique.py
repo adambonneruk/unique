@@ -1,23 +1,46 @@
-import uuid
 import sys
-import os
+import re
 
-print("Python %s\n" % (sys.version,))
+from unique_help import help
+from unique_generate import generate
 
-for x in range (1,21): #21 does 20 times, seems normal python thing?
+if not re.search(r"--help",str(sys.argv)): ## display just help if "--help" argument found
+	try:
+		args = len(sys.argv) - 1 # number of arguments (minus the program itself)
+		version = 4
+		count = 1
+		argumentError = False
+		for i in range(1, args + 1): # 1 to the number of arguments
 
-	unique1=uuid.uuid4()
-	#print('UUID[',x,']: ',unique1) #creates extra unneeded spaces
-	#print("UUID %d" % (x)) #too complex
-	print ('UUID [' + str(x).zfill(2) + ']: ' + str(unique1)) #simple string concatenate
-	#                 1      2     3            4   5
-	'''
-		1 = str function converts decimal x to string
-		2 = zfill pads the string to 2 chars
-		3 = sets number of pad zeros
-		4 = str function converts uuid unique1 to string
-		5 = the uuid type var called unique1
-	'''
+			if not re.search(r"^(-v|--version|-c|--count|\d+)$",sys.argv[i]):
+				argumentError = True
+			else:
+				try:
+					if re.search(r"^(-v|--version)$",sys.argv[i]):
+						version = int(sys.argv[i+1])
+					if re.search(r"^(-c|--count)$",sys.argv[i]):
+						count = int(sys.argv[i+1])
+				except:
+					argumentError = True
 
-os.system("echo.")
-os.system("pause")
+		if argumentError == True :
+			print("error: invalid argument(s)")
+			quit(-1)
+
+		elif re.search(r"^[^014]$",str(version)):
+			print("error: uuid version incorrect")
+			quit(-1)
+
+		elif count < 1 or count > 65536:
+			print("error: incorrect number (count) of outputs")
+			quit(-1)
+
+		else:
+			generate(version,count)
+
+	except:
+		help()
+		quit(-1)
+
+else:
+	help()
