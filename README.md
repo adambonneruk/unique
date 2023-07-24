@@ -99,7 +99,7 @@ rm -rf venv
 * Generate UUID Versions 1, 3, 4, 5 and the "Special Nil Case"/0 (_GUI 0/1/4 Only_)
 * Support for DNS (FQDN), URL, OID and X.500 Namespaces (```--ns```)
 * Prefix UUID with URN (RFC 4122) (```-u```)
-* Commandline Unix-Like tool and Graphical User Interface
+* Command line Unix-Like tool and Graphical User Interface
 * Non-Standard: Output UUID as Uppercase (```-U```)
 * Shorten UUIDs using Base64 Encoding (```-s```)
 * Decode UUID with pretty-print or version/type information
@@ -107,7 +107,7 @@ rm -rf venv
 * __Platform Agnostic:__ Python, Docker & Windows
 
 ## Background
-Back in May 2016, I needed a random number generator and started learning about UUIDs. This tool started as a way to automatically generate 20 v4 UUIDs (the only one not static or engineered to a set of hardware) and has now been updated and released to hopefully demonstrate my profeciency with ```git```, ```git submodule```, ```git-flow```, ```markdown```, ```python```, ui design, ux design, ```tkinter```, oosd, argument parsing, ```RegEx```, ```Base64```, ```Hexadecimal```, Docker, and more!
+Back in May 2016, I needed a random number generator and started learning about UUIDs. This tool started as a way to automatically generate 20 v4 UUIDs (the only one not static or engineered to a set of hardware) and has now been updated and released to hopefully demonstrate my proficiency with ```git```, ```git submodule```, ```git-flow```, ```markdown```, ```python```, ui design, ux design, ```tkinter```, oosd, argument parsing, ```RegEx```, ```Base64```, ```Hexadecimal```, Docker, and more!
 
 ## What is a UUID? (from [Wikipedia](https://https://en.wikipedia.org/wiki/Universally_unique_identifier))
 A universally unique identifier (UUID) is a 128-bit number used to identify information in computer systems. UUIDs are, for practical purposes, unique. Their uniqueness does not depend on a central registration authority or coordination between the parties generating them. Anyone can create a UUID and use it to identify something with near certainty that the identifier does not duplicate one that has already been, or will be, created to identify something else.
@@ -115,7 +115,7 @@ A universally unique identifier (UUID) is a 128-bit number used to identify info
 >__Note:__ A Version 4 UUID is the default, safe and extremely random output of this tool.
 
 ### ...and what is a ULID?
-Unique Lexicographically Sortable Identifiers (ULIDs) are; like UUIDs, 128-bit random numbers used to to universally identify data items. With the added benefits of being shorter (26 character Base32-encoded string), sortable (lexigraphically and monotonic) and case insensitive.
+Unique Lexicographically Sortable Identifiers (ULIDs) are; like UUIDs, 128-bit random numbers used to to universally identify data items. With the added benefits of being shorter (26 character Base32-encoded string), sortable (lexicographically and monotonic) and case insensitive.
 
 ## Further Reading:
 * [Base64](https://en.wikipedia.org/wiki/Base64)
@@ -137,7 +137,7 @@ About      | ![](.screenshot/win10-about.png)   | ![](.screenshot/linux-about.pn
 
 <br>
 
-The following Menu options are availble:
+The following Menu options are available:
 * File
   * __New__: Clear-down the UUIDs in the current tool, ready for new generation
   * __Open__: Open a text (```.txt```/```.uuid```) file, useful for appending UUIDs
@@ -145,7 +145,7 @@ The following Menu options are availble:
   * __Save As..__: Save the current UUIDs to a new text (```.txt```/```.uuid```) file
   * __Quit__
 * Generate
-  * __Version 1 UUID__: Generare a Version 1 (Datetime & MAC Address) UUID
+  * __Version 1 UUID__: Generate a Version 1 (Datetime & MAC Address) UUID
   * __Version 4 UUID__: Generate a Version 4 UUID (based on RNG)
   * __Special Nil UUID__: Generate a Nil UUID (_0's_)
 * Tools
@@ -158,7 +158,7 @@ The following Keyboard Shortcuts are available:
 * __CTRL + O__: Open a text (```.txt```/```.uuid```) file,useful for appending UUIDs
 * __CTRL + S__: Save the current UUIDs to a text (```.txt``````.uuid```) file
 * __CTRL + 0__: Generate a Nil UUID (_0's_)
-* __CTRL + 1__: Generare a Version 1 (Datetime & MAC Address)UUID
+* __CTRL + 1__: Generate a Version 1 (Datetime & MAC Address)UUID
 * __CTRL + 4__: Generate a Version 4 UUID (based on RNG)
 * __F1__: Opens a popup window with author/version information
 * __F9__: Open the Options popup
@@ -176,14 +176,14 @@ Version | Switch | Specifics                  | Additional Options (__Bold = Man
 5       | -v 5   | Namespace & Name-based     | __--ns__, __-n__, -q, -u, -U, -s
 
 ### Summary (Decode)
-Utilising the ```decode``` positional argument, ```unique``` will instead process/decode a given UUID and pretty print the output as a lowercase, dash-seperated string. The input can be in multiple formats (urn-prefix, hexadecimal, base64 etc.)
+Utilising the ```decode``` positional argument, ```unique``` will instead process/decode a given UUID and pretty print the output as a lowercase, dash-separated string. The input can be in multiple formats (urn-prefix, hexadecimal, base64 etc.)
 
 Mode   | Argument | Description                  | Additional Options
 -------|----------|------------------------------|-------------------------------------------
 decode |  &lt;UUID&gt;  | Decode string <UUID> as UUID | -i, --information
 
 ### Usage Examples (Windows)
-The following code block uses shorthand arguments, the tool provides the facility to use both short (e.g. ```-q```) and long (e.g. ```--quantity```) arguments interchangebly. Windows can natively execute ```.py``` files if Python is installed. If you are using the independant released exexutable; simply substitute the extensions in the following examples to ```.exe```.
+The following code block uses shorthand arguments, the tool provides the facility to use both short (e.g. ```-q```) and long (e.g. ```--quantity```) arguments interchangeably. Windows can natively execute ```.py``` files if Python is installed. If you are using the independent released executable; simply substitute the extensions in the following examples to ```.exe```.
 
 ```powershell
 # UUIDv4
@@ -284,7 +284,7 @@ Unique vX.Y.Z | Adam Bonner | 2020
 ```
 
 ## Docker (```docker run --rm -it uuid:latest```)
-The project's Dockerfile can be utilised to create a platform independant container image; supporting the generation of UUIDs in cloud (e.g. Kubernetes/OpenShift) environments. Getting ```unique``` to work with docker requires two steps, first create the docker image, then run it in the docker service
+The project's Dockerfile can be utilised to create a platform independent container image; supporting the generation of UUIDs in cloud (e.g. Kubernetes/OpenShift) environments. Getting ```unique``` to work with docker requires two steps, first create the docker image, then run it in the docker service
 
 ### Build Docker Image
 ```bash
@@ -314,7 +314,7 @@ $ docker run --rm -it uuid:latest --help
 
 ## Installation / Prerequisites / Dependencies
 
->__Note:__ The Docker (CLI-only) version of this project is inherently platform independant. This readme doesn't discuss that technology. Get started [here](https://docs.docker.com/get-started/).
+>__Note:__ The Docker (CLI-only) version of this project is inherently platform independent. This readme doesn't discuss that technology. Get started [here](https://docs.docker.com/get-started/).
 
 ```Unique``` is build with utilising the following Python 3 libraries:
 
