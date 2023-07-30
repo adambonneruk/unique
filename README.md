@@ -1,11 +1,28 @@
 # Unique
 _The UUID & ULID Generator Tool_
 
-> __Important Note__: This repository uses [Git LFS](https://docs.github.com/en/repositories/working-with-files/managing-large-files/installing-git-large-file-storage)
+## UUIDs and ULIDs: An Introduction
+May 2016: I needed a random number generator and learned about UUIDs. This tool started as a way to automatically generate 20 v4 UUIDs (the only one not static or engineered to a set of hardware) and has since turned into a sandbox/demonstration project. Inside this repository you'll find a number of different technologies and concepts; from ```oid```'s and ```dns``` validation using Regular Expressions in the source code, up to ```venv``` and ```makensis``` to build and package the end solution. Hopefully this project serves as a good jumping-off point for someone wanting to learn ```git``` or ```python```.
 
-### Virtual Environment, PyInstaller Compile, and NSIS Build
+As for that end-solution? This tools ships as both a graphical (notepad-like) application you can click through, as well as a lightning-fast utility leveraging syntax and principals from my favourite Unix software. This code is tested on Windows, Mac OS and Ubuntu and can also be run via Docker.
 
-<details><!------------------------------------------------------------>
+### What is a UUID? (from [Wikipedia](https://https://en.wikipedia.org/wiki/Universally_unique_identifier))
+A Universally Unique IDentifier (UUID) is a 128-bit number used to identify information in computer systems. UUIDs are, for practical purposes, unique. Their uniqueness does not depend on a central registration authority or coordination between the parties generating them. Anyone can create a UUID and use it to identify something with near certainty that the identifier does not duplicate one that has already been, or will be, created to identify something else.
+
+### ...and what is a ULID?
+Unique Lexicographically Sortable Identifiers (ULIDs) are; like UUIDs, 128-bit random numbers used to to universally identify data items. With the added benefits of being shorter (26 character Base32-encoded string), sortable (lexicographically and monotonic) and case insensitive.
+
+---
+## Installing and using _Unique_
+### Graphical Installer
+### Graphical User Interface mode
+### Command-line Interface mode
+
+---
+## How to Compile and Build Installer
+### Python, venv, and Prerequisites
+
+<details>
 <summary>Virtual Environment Setup</summary>
 using your favourite terminal, from the project root directory:
 
@@ -25,7 +42,9 @@ pip install -r .\requirements.txt
 ```
 </details>
 
-<details><!------------------------------------------------------------>
+### Compile .exe
+
+<details>
 <summary>Compile the .exe files using PyInstaller</summary>
 using your favourite terminal, from the project root directory:
 
@@ -35,7 +54,9 @@ python .\tools\make.py
 ```
 </details>
 
-<details><!------------------------------------------------------------>
+### Build Installer
+
+<details>
 <summary>Build the installer using NSIS</summary>
 using your favourite terminal, from the project root directory:
 
@@ -45,25 +66,13 @@ python .\tools\make-installer.py
 ```
 </details>
 
+### venv first-time use
+
 <details><!------------------------------------------------------------>
-<summary>First-time Installation & Setup Details [Do Not Use]</summary>
+<summary>First-time Installation & Setup Details [For-Reference Only]</summary>
 using your favourite terminal, from the project root directory:
 
 ```ps
-# "update python"
-python -m pip install --upgrade pip
-python -m pip install --upgrade setuptools
-
-# "create a virtual environment named venv"
-python -m venv venv
-
-# "activate the virtual environment"
-.\venv\Scripts\activate.ps1
-
-# "pip upgrade pip and setuptools"
-python -m pip install --upgrade pip
-python -m pip install --upgrade setuptools
-
 # "install this project's dependencies"
 python -m pip install pyinstaller
 
@@ -75,12 +84,80 @@ pip freeze > requirements.txt
 
 # exit venv
 deactivate
-
-# remove venv
-rm -rf venv
 ```
-
 </details>
+
+---
+## Copyright Notice(s)
+- TBC
+
+---
+## Contributing to this Project
+This project welcomes contributions of all types. We ask that before you start work on a feature that you would like to contribute, please read the [Contributor's Guide](.github/CONTRIBUTING.md).
+
+---
+## Security Policy for this Project
+This project seeks to build secure, versatile and robust portable software. If you find an issue, please report it following the [Security Policy](.github/SECURITY.md)
+
+---
+## Thanks & Useful Links
+
+#### People / Organisations
+- [jatinkarthik-tripathy](https://github.com/jatinkarthik-tripathy/Text-Editor)'s Text Editor (in Python)
+- [six519](https://github.com/six519/Python-Notepad)'s Python Notepad
+
+#### Software
+- The [NSIS](https://nsis.sourceforge.io/Main_Page) Project
+- [Paint.net](https://getpaint.net/) for Image editing
+- [IcoFx Portable](https://portableapps.com/apps/graphics_pictures/icofx_portable) for Icon file editing
+
+#### Further Reading
+- links here
+
+
+#### Online Useful Links/Guides
+- [code-mentor.org](https://code-mentor.org/notepad-using-tkinter-in-python-with-source-code)
+- links here
+
+<!------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Virtual Environment, PyInstaller Compile, and NSIS Build
+
+
+
+
+
+
 
 ---
 ## Introduction
@@ -107,15 +184,7 @@ rm -rf venv
 * __Platform Agnostic:__ Python, Docker & Windows
 
 ## Background
-Back in May 2016, I needed a random number generator and started learning about UUIDs. This tool started as a way to automatically generate 20 v4 UUIDs (the only one not static or engineered to a set of hardware) and has now been updated and released to hopefully demonstrate my proficiency with ```git```, ```git submodule```, ```git-flow```, ```markdown```, ```python```, ui design, ux design, ```tkinter```, oosd, argument parsing, ```RegEx```, ```Base64```, ```Hexadecimal```, Docker, and more!
 
-## What is a UUID? (from [Wikipedia](https://https://en.wikipedia.org/wiki/Universally_unique_identifier))
-A universally unique identifier (UUID) is a 128-bit number used to identify information in computer systems. UUIDs are, for practical purposes, unique. Their uniqueness does not depend on a central registration authority or coordination between the parties generating them. Anyone can create a UUID and use it to identify something with near certainty that the identifier does not duplicate one that has already been, or will be, created to identify something else.
-
->__Note:__ A Version 4 UUID is the default, safe and extremely random output of this tool.
-
-### ...and what is a ULID?
-Unique Lexicographically Sortable Identifiers (ULIDs) are; like UUIDs, 128-bit random numbers used to to universally identify data items. With the added benefits of being shorter (26 character Base32-encoded string), sortable (lexicographically and monotonic) and case insensitive.
 
 ## Further Reading:
 * [Base64](https://en.wikipedia.org/wiki/Base64)
@@ -351,34 +420,4 @@ sudo apt-get install python3-tk
 
 
 
----
-## Copyright Notice(s)
-- TBC
 
----
-## Contributing to this Project
-This project welcomes contributions of all types. We ask that before you start work on a feature that you would like to contribute, please read the [Contributor's Guide](.github/CONTRIBUTING.md).
-
----
-## Security Policy for this Project
-This project seeks to build secure, versatile and robust portable software. If you find an issue, please report it following the [Security Policy](.github/SECURITY.md)
-
----
-## Thanks & Useful Links
-
-#### People / Organisations
-- [jatinkarthik-tripathy](https://github.com/jatinkarthik-tripathy/Text-Editor)'s Text Editor (in Python)
-- [six519](https://github.com/six519/Python-Notepad)'s Python Notepad
-- [code-mentor.org](https://code-mentor.org/notepad-using-tkinter-in-python-with-source-code)
-
-#### Software
-- The [NSIS](https://nsis.sourceforge.io/Main_Page) Project
-- [Paint.net](https://getpaint.net/) for Image editing
-- [IcoFx Portable](https://portableapps.com/apps/graphics_pictures/icofx_portable) for Icon file editing
-
-#### Further Reading
-- links here
-
-
-#### Online Useful Links/Guides
-- links here
