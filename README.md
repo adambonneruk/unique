@@ -41,8 +41,8 @@ pip install -r .\requirements.txt
 
 ### compile
 ```ps
-# compiley exe with pyinstaller
-pyinstaller .\src\unique.spec
+# compile exe's with pyinstaller
+py .\tools\make.py
 
 # execute new .exe
 .\dist\unique\unique.exe
