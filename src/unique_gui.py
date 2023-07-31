@@ -4,6 +4,7 @@ from tkinter import messagebox
 from tkinter import filedialog
 import logging
 import re
+import os
 from unique import Unique
 from unique import is_reasonable_quantity
 from unique import is_uuid_ns_name
@@ -387,7 +388,7 @@ def options_popup():
     popup.transient(window)
     popup.title("Options")
     popup.geometry("+150+150")
-    popup.iconbitmap("./icon/unique.ico")
+    popup.iconbitmap(os.path.join(basedir, "./icon/unique.ico"))
 
     logging.debug("Create Quantity Entry Box")
     quant_var = tk.StringVar()
@@ -520,12 +521,14 @@ logging.debug("-----------------\nDEBUG MODE ACTIVE\n-----------------")
 
 current_settings = Settings()
 
+basedir = os.path.dirname(__file__)
+
 # Create the Window
 logging.info("Create the Window")
 window = tk.Tk()
 #window.title(current_settings.title)
 current_settings.window_title()
-window.iconbitmap("./icon/unique.ico")
+window.iconbitmap(os.path.join(basedir, "icon/unique.ico"))
 window.geometry("385x275+100+100")
 window.wm_attributes("-topmost", 1) #always on top
 window.protocol("WM_DELETE_WINDOW", exit_are_you_sure) #Close Buttom Prompt
@@ -535,22 +538,22 @@ logging.debug("Create the Menu Bar")
 menu_bar = tk.Menu(window)
 
 # Load Icons
-new_icon = tk.PhotoImage(file='icon/vswin2019/NewFile_16x.png')
-open_icon = tk.PhotoImage(file='icon/vswin2019/OpenFile_16x.png')
-save_icon = tk.PhotoImage(file='icon/vswin2019/Save_16x.png')
-saveas_icon = tk.PhotoImage(file='icon/vswin2019/SaveAs_16x.png')
-exit_icon = tk.PhotoImage(file='icon/vswin2019/CloseSolution_16x.png')
-uuid0_icon = tk.PhotoImage(file='icon/vswin2019/LevelAll_16x.png')
-uuid1_icon = tk.PhotoImage(file='icon/vswin2019/LevelOne_16x.png')
-uuid3_icon = tk.PhotoImage(file='icon/vswin2019/LevelThree_16x.png')
-uuid4_icon = tk.PhotoImage(file='icon/vswin2019/LevelFour_16x.png')
-uuid5_icon = tk.PhotoImage(file='icon/vswin2019/LevelFive_16x.png')
-ulid_icon = tk.PhotoImage(file='icon/vswin2019/Sort_16x.png')
-uppercase_icon = tk.PhotoImage(file='icon/vswin2019/CaseSensitive_16x.png')
-base64_icon = tk.PhotoImage(file='icon/vswin2019/Binary_16x.png')
-urn_icon = tk.PhotoImage(file='icon/vswin2019/Link_16x.png')
-options_icon = tk.PhotoImage(file='icon/vswin2019/Settings_16x.png')
-about_icon = tk.PhotoImage(file='icon/vswin2019/InformationSymbol_16x.png')
+new_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/NewFile_16x.png'))
+open_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/OpenFile_16x.png'))
+save_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/Save_16x.png'))
+saveas_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/SaveAs_16x.png'))
+exit_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/CloseSolution_16x.png'))
+uuid0_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/LevelAll_16x.png'))
+uuid1_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/LevelOne_16x.png'))
+uuid3_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/LevelThree_16x.png'))
+uuid4_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/LevelFour_16x.png'))
+uuid5_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/LevelFive_16x.png'))
+ulid_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/Sort_16x.png'))
+uppercase_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/CaseSensitive_16x.png'))
+base64_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/Binary_16x.png'))
+urn_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/Link_16x.png'))
+options_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/Settings_16x.png'))
+about_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/InformationSymbol_16x.png'))
 
 # Create the File Menu
 logging.debug("Create the File Menu")
