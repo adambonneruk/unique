@@ -6,6 +6,7 @@ import argparse
 from datetime import datetime
 from datetime import timedelta
 from ulid import Ulid
+from colour import Colour
 
 def is_uuid_version(version):
     '''version (int) check, should be 0, 1, 3, 4, or 5'''
@@ -153,13 +154,13 @@ class Unique:
     def __generate_uuid(self):
         if self._version == 0:
             self._uuid = "00000000-0000-0000-0000-000000000000"
-        if self._version == 1:
+        elif self._version == 1:
             self._uuid = str(uuid.uuid1())
-        if self._version == 3:
+        elif self._version == 3:
             self._uuid = self.__uuid3()
-        if self._version == 4:
+        elif self._version == 4:
             self._uuid = str(uuid.uuid4())
-        if self._version == 5:
+        elif self._version == 5:
             self._uuid = self.__uuid5()
 
     def __uuid5(self):
@@ -339,6 +340,42 @@ class Decode(Unique):
         """grab the uuid version from the string"""
         return int(self._uuid[14:15], 16)
 
+def print_with_colour(uuid,version,upper,flag):
+
+    if upper:
+        printable_string = uuid.upper()
+    else:
+        printable_string = uuid
+
+    if flag:
+        colour = Colour() # initialise a colour object, this will allow us to print in colour
+        match version:
+            case 0:
+                printable_string = str(printable_string)[:14] + colour.convert(str(printable_string)[14:15],Colour.RED) + str(printable_string)[15:]
+            case 1:
+                printable_string = (
+                    str(colour.convert(str(printable_string)[:8],Colour.YELLOW))
+                    + str(printable_string)[8:9]
+                    + str(colour.convert(str(printable_string)[9:13],Colour.YELLOW))
+                    + str(printable_string)[13:14]
+                    + str(colour.convert(str(printable_string)[14:15],Colour.GREEN))
+                    + str(colour.convert(str(printable_string)[15:18],Colour.YELLOW))
+                    + str(printable_string)[18:19]
+                    + str(colour.convert(str(printable_string)[19:23],Colour.CYAN))
+                    + str(printable_string)[23:24]
+                    + str(colour.convert(str(printable_string)[24:],Colour.MAGENTA))
+                )
+            case 3:
+                printable_string = str(printable_string)[:14] + colour.convert(str(printable_string)[14:15],Colour.GREEN) + str(printable_string)[15:]
+            case 4:
+                printable_string = str(printable_string)[:14] + colour.convert(str(printable_string)[14:15],Colour.GREEN) + str(printable_string)[15:]
+            case 5:
+                printable_string = str(printable_string)[:14] + colour.convert(str(printable_string)[14:15],Colour.GREEN) + str(printable_string)[15:]
+    else:
+        None
+
+    print(printable_string)
+
 def uuid_generate(args, parser):
     """Validates severage inbound arguments then prints x number of UUIDs"""
     #Argument Validation
@@ -364,14 +401,12 @@ def uuid_generate(args, parser):
     for _ in range(0, args.quantity):
         myuuid = Unique(args.version, args.namespace, args.name)
 
-        if args.upper_flag:
-            print(myuuid.upper())
-        elif args.urn_flag:
+        if args.urn_flag:
             print(myuuid.prefix())
         elif args.short_flag:
             print(myuuid.encode())
         else:
-            print(myuuid)
+            print_with_colour(myuuid,args.version,args.upper_flag,args.colour_flag)
 
 def ulid_generate(args, parser):
     """Validates arguments then prints x number of ULIDs"""
@@ -444,8 +479,11 @@ def main():
     parser.add_argument("-n", "--name", type=str, default="", dest="name",
                         metavar="<NAME>",
                         help="Specify UUID v3 or v5 name")
+    parser.add_argument("-c", "--colour", dest="colour_flag",
+                            action="store_true", default=False,
+                            help="Disable colour syntax highlighting")
 
-    # Add Arguments - Main Parser (MEG)
+    # Add Arguments - Main Parser (Mutually Exclusive Group)
     parser_meg.add_argument("-u", "--urn", dest="urn_flag",
                             action="store_true", default=False,
                             help="Specify URN standard prefix")
