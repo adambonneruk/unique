@@ -523,6 +523,14 @@ current_settings = Settings()
 
 basedir = os.path.dirname(__file__)
 
+try:
+    from ctypes import windll  # Only exists on Windows.
+
+    myappid = "uk.bonner.unique.5-beta"
+    windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+except ImportError:
+    pass
+
 # Create the Window
 logging.info("Create the Window")
 window = tk.Tk()
