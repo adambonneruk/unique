@@ -245,7 +245,7 @@ def file_open(): #ctrl o
     else:
         logging.debug("\twe don't have an existing savefile")
         text_blob = plain_text_area.get('1.0', "end"+'-1c')
-        if text_blob.strip != "": #plain text is not empty
+        if text_blob != "": #plain text is not empty
             quit_ask = messagebox.askyesnocancel("Untitled", "Save changes to \"Untitled\"?")
             if quit_ask: #Yes
                 logging.debug("\tOption: Save & Open")
