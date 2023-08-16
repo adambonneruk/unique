@@ -35,7 +35,6 @@ _The UUID & ULID Generator Tool_
     - [Further Reading](#further-reading)
     - [Online Useful Links/Guides](#online-useful-linksguides)
 
-
 ## UUIDs and ULIDs: An Introduction
 May 2016: I needed a random number generator and learned about UUIDs. This tool started as a way to automatically generate 20 v4 UUIDs (the only one not static or engineered to a set of hardware) and has since turned into a sandbox/demonstration project. Inside this repository you'll find a number of different technologies and concepts; from ```oid```'s and ```dns``` validation using Regular Expressions in the source code, up to ```venv``` and ```makensis``` to build and package the end solution. Hopefully this project serves as a good jumping-off point for someone wanting to learn ```git``` or ```python```.
 
@@ -49,6 +48,8 @@ Unique Lexicographically Sortable Identifiers (ULIDs) are; like UUIDs, 128-bit r
 
 ---
 ## Installing and using _Unique_
+
+<img alt="unique's project icon" align="right" width="128px" src="src/icon/icon_source_vector.svg" />
 
 Features
 - Generate UUID Versions 1, 3, 4, 5 and the "Special Nil Case"/0 (_GUI 0/1/4 Only_)
