@@ -535,7 +535,7 @@ window = tk.Tk()
 current_settings.window_title()
 window.iconbitmap(os.path.join(basedir, "icon/unique.ico"))
 window.geometry("385x275+100+100")
-window.wm_attributes("-topmost", 1) #always on top
+#window.wm_attributes("-topmost", 1) #always on top
 window.protocol("WM_DELETE_WINDOW", exit_are_you_sure) #Close Buttom Prompt
 
 # Create the Menu Bar
