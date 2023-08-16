@@ -81,11 +81,10 @@ class Settings:
 
 def about():
     """Display About Message"""
-    about_me = ["Unique: The UUID Generator",
-                "Version 4.0.0",
+    about_me = ["Unique: The UUID and ULID Generation Tool",
                 "MIT Licence",
-                "Adam Bonner, 2020",
-                "https://github.com/adambonneruk/uuid-generator"]
+                "Adam Bonner, 2023",
+                "https://github.com/adambonneruk/unique"]
     messagebox.showinfo("About", "\n".join(about_me))
 
 def empty_pta():
