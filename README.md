@@ -66,12 +66,12 @@ Features
 ### Graphical User Interface mode
 Using the ```tkinter``` library, a gui is available to generate UUIDs for those not comfortable with the command line. Simply click on your desktop link (windows) or open/execute ```python3 src/unique_gui.py``` (linux) to be presented with the graphical interface.
 
-| &nbsp;     | Windows                                   | Linux                              | macOS                                     |
-| ---------- | ----------------------------------------- | ---------------------------------- | ----------------------------------------- |
-| __Unique__ | ![](.images/screenshot-win10.png)         | ![](.images/screenshot-linux.png)         | ![](.images/screenshot-macos.png)         |
-| Menu       | ![](.images/screenshot-win10-menu.png)    | ![](.images/screenshot-linux-menu.png)    | ![](.images/screenshot-macos-menu.png)    |
-| Options    | ![](.images/screenshot-win10-options.png) | ![](.images/screenshot-linux-options.png) | ![](.images/screenshot-macos-options.png) |
-| About      | ![](.images/screenshot-win10-about.png)   | ![](.images/screenshot-linux-about.png)   | ![](.images/screenshot-macos-about.png)   |
+| &nbsp;     | Windows                                   | Linux                                     | macOS                                     |
+| ---------- | ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
+| __Unique__ | ![](.images/screenshot-win10.png)         | ![](.images/screenshot-linux.png)         | ![](.images/screenshot-macOS.png)         |
+| Menu       | ![](.images/screenshot-win10-menu.png)    | ![](.images/screenshot-linux-menu.png)    | ![](.images/screenshot-macOS-menu.png)    |
+| Options    | ![](.images/screenshot-win10-options.png) | ![](.images/screenshot-linux-options.png) | ![](.images/screenshot-macOS-options.png) |
+| About      | ![](.images/screenshot-win10-about.png)   | ![](.images/screenshot-linux-about.png)   | ![](.images/screenshot-macOS-about.png)   |
 
 The following Menu options are available:
 * File
