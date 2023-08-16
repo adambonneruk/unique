@@ -164,3 +164,4 @@ cython_debug/
 
 # Installer/.exe Releases
 installer/release/
+*.exe
