@@ -1,12 +1,20 @@
+""" make.py is a tool script used to...
+	(1) compile the solution with PyInstaller
+    (2) package this with NSIS
+"""
+
 import os
 
-print("working dir:")
-os.system("pwd")
+print("make.py: compile and package installer")
 
-print("make file automation for unique cli version")
-os.system("pyinstaller .\\src\\unique.spec --noconfirm")
+# compile gui solution, overwrite existing files (in build/dist folders) using predefined .spec file
+print("\n----------------------\npyinstaller src/unique_gui.spec --noconfirm")
+os.system("pyinstaller src/unique_gui.spec --noconfirm")
 
-os.system("echo.")
+# compile cli solution, overwrite existing files (in build/dist folders) using predefined .spec file
+print("\n----------------------\npyinstaller src/unique.spec --noconfirm")
+os.system("pyinstaller src/unique.spec --noconfirm")
 
-print("make file automation for unique gui version")
-os.system("pyinstaller .\\src\\unique_gui.spec --noconfirm")
+# use nsis to build standard windows looking installer (and uninstaller)
+print("\n----------------------\nmakensis installer/unique.nsi")
+os.system("makensis installer/unique.nsi")
