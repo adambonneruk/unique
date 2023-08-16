@@ -245,7 +245,7 @@ def file_open(): #ctrl o
     else:
         logging.debug("\twe don't have an existing savefile")
         text_blob = plain_text_area.get('1.0', "end"+'-1c')
-        if text_blob.strip != "": #plain text is not empty
+        if text_blob != "": #plain text is not empty
             quit_ask = messagebox.askyesnocancel("Untitled", "Save changes to \"Untitled\"?")
             if quit_ask: #Yes
                 logging.debug("\tOption: Save & Open")
@@ -387,8 +387,8 @@ def options_popup():
     popup = tk.Toplevel(window)
     popup.transient(window)
     popup.title("Options")
-    popup.geometry("+150+150")
-    popup.iconbitmap(os.path.join(basedir, "./icon/unique.ico"))
+    popup.geometry("204x153+150+150")
+    popup.iconbitmap(os.path.join(basedir, "icon/unique.ico"))
 
     logging.debug("Create Quantity Entry Box")
     quant_var = tk.StringVar()
@@ -403,8 +403,6 @@ def options_popup():
     tk.Label(popup, text="Quantity").grid(sticky="w", pady=5, padx=2, row=0, column=0)
     quant.grid(row=0, column=1, pady=12, columnspan=2)
 
-    ###################################################################################
-
     name_var = tk.StringVar()
 
     # Log current_settings.name
@@ -416,10 +414,6 @@ def options_popup():
     name = tk.Entry(popup, width=20, textvariable=name_var, bg=current_settings.name_colour)
     tk.Label(popup, text="Name").grid(sticky="w", pady=5, padx=2, row=2, column=0)
     name.grid(row=2, column=1, pady=12, columnspan=2)
-
-    ###############################################################################################################
-    tk.Label(popup, text="1").grid(sticky="w", pady=5, padx=2, row=3, column=0)
-    ###############################################################################################################
 
     namespaces_var = tk.StringVar()
     namespaces = {"dns", "url", "oid", "x500"}
@@ -447,8 +441,6 @@ def options_popup():
         current_settings.namespace = current_namespace
 
         return True
-
-    #namespaces_var.trace('w', change_namespaces)
 
     def set_quantity():
         """Quanitiy Set Button Pressed"""
@@ -520,8 +512,14 @@ logging.basicConfig(format='%(message)s', level=logging.DEBUG)
 logging.debug("-----------------\nDEBUG MODE ACTIVE\n-----------------")
 
 current_settings = Settings()
-
 basedir = os.path.dirname(__file__)
+
+'''
+https://www.pythonguis.com/tutorials/packaging-tkinter-applications-windows-pyinstaller/
+When you run your application, Windows looks at the executable and tries to guess what "application group"
+it belongs to. By default, any Python scripts (including your application) are grouped under the same
+"Python" group, and so will show the Python icon. To stop this happening, we need to provide Windows with
+a different application identifier.'''
 
 try:
     from ctypes import windll  # Only exists on Windows.
