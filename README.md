@@ -16,6 +16,33 @@ Unique Lexicographically Sortable Identifiers (ULIDs) are; like UUIDs, 128-bit r
 ## Installing and using _Unique_
 ### Graphical Installer
 ### Graphical User Interface mode
+
+| &nbsp;     | Windows                                   | Linux                              | macOS                                     |
+| ---------- | ----------------------------------------- | ---------------------------------- | ----------------------------------------- |
+| __Unique__ | ![](.images/screenshot-win10.png)         | ![](.images/screenshot-linux.png)         | ![](.images/screenshot-macos.png)         |
+| Menu       | ![](.images/screenshot-win10-menu.png)    | ![](.images/screenshot-linux-menu.png)    | ![](.images/screenshot-macos-menu.png)    |
+| Options    | ![](.images/screenshot-win10-options.png) | ![](.images/screenshot-linux-options.png) | ![](.images/screenshot-macos-options.png) |
+| About      | ![](.images/screenshot-win10-about.png)   | ![](.images/screenshot-linux-about.png)   | ![](.images/screenshot-macos-about.png)   |
+
+The following Menu options are available:
+* File
+  * __New__: Clear-down the UUIDs in the current tool, ready for new generation (__CTRL + N__)
+  * __Open__: Open a text (```.txt```/```.uuid```) file, useful for appending UUIDs (__CTRL + O__)
+  * __Save__: Save the current UUIDs to a text (```.txt```/```.uuid```) file (__CTRL + S__)
+  * __Save As..__: Save the current UUIDs to a new text (```.txt```/```.uuid```) file
+  * __Quit__ (__ALT + F4__)
+* Generate
+  * __Version 1 UUID__: Generate a Version 1 (Datetime & MAC Address) UUID (__CTRL + 1__)
+  * __Version 1 UUID__: Generate a Version 3 (Datetime & MAC Address) UUID (__CTRL + 3__)
+  * __Version 4 UUID__: Generate a Version 4 UUID (based on RNG) (__CTRL + 4__)
+  * __Version 1 UUID__: Generate a Version 5 (Datetime & MAC Address) UUID (__CTRL + 5__)
+  * __Special Nil UUID__: Generate a Nil UUID (_0's_) (__CTRL + 0__)
+  * __Special Nil UUID__: Generate a ULID (_0's_) (__CTRL + L__)
+* Tools
+  * __Options__: Open the Options popup (__F9__)
+* Help
+  * __About__: Opens a popup window with author/version information (__F1__)
+
 ### Command-line Interface mode
 
 ---
