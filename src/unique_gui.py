@@ -508,7 +508,7 @@ def options_popup():
     button_apply.grid(row=4, column=1, padx=5, pady=5)
     button_close.grid(row=4, column=2, padx=5, pady=5)
 
-logging.basicConfig(format='%(message)s', level=logging.DEBUG)
+logging.basicConfig(format='%(message)s', level=logging.WARN)
 logging.debug("-----------------\nDEBUG MODE ACTIVE\n-----------------")
 
 current_settings = Settings()
