@@ -49,7 +49,7 @@ Unique Lexicographically Sortable Identifiers (ULIDs) are; like UUIDs, 128-bit r
 ---
 ## Installing and using _Unique_
 
-<img alt="unique's project icon" align="right" width="128px" src="src/icon/icon_source_vector.svg" />
+<img alt="unique's project icon" align="right" width="200px" src="src/icon/icon_source_vector.svg" />
 
 Features
 - Generate UUID Versions 1, 3, 4, 5 and the "Special Nil Case"/0 (_GUI 0/1/4 Only_)
@@ -64,15 +64,21 @@ Features
 - Platform Agnostic: Python, Docker & Windows
 
 ### Graphical Installer
+Using NSIS, the simple graphical installer enables users to install the graphical tool and add start menu/desktop shotcuts (for Windows only).
+
+|               Welcome                |               Licence                |               Location                |               Components                |               Complete                |
+| :----------------------------------: | :----------------------------------: | :-----------------------------------: | :-------------------------------------: | :-----------------------------------: |
+| ![](.images/installer-1-welcome.png) | ![](.images/installer-2-licence.png) | ![](.images/installer-3-location.png) | ![](.images/installer-4-components.png) | ![](.images/installer-5-complete.png) |
+
 ### Graphical User Interface mode
 Using the ```tkinter``` library, a gui is available to generate UUIDs for those not comfortable with the command line. Simply click on your desktop link (windows) or open/execute ```python3 src/unique_gui.py``` (linux) to be presented with the graphical interface.
 
-| &nbsp;     | Windows                                   | Linux                                     | macOS                                     |
-| ---------- | ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
-| __Unique__ | ![](.images/screenshot-win10.png)         | ![](.images/screenshot-linux.png)         | ![](.images/screenshot-macOS.png)         |
-| Menu       | ![](.images/screenshot-win10-menu.png)    | ![](.images/screenshot-linux-menu.png)    | ![](.images/screenshot-macOS-menu.png)    |
-| Options    | ![](.images/screenshot-win10-options.png) | ![](.images/screenshot-linux-options.png) | ![](.images/screenshot-macOS-options.png) |
-| About      | ![](.images/screenshot-win10-about.png)   | ![](.images/screenshot-linux-about.png)   | ![](.images/screenshot-macOS-about.png)   |
+| &nbsp;     | Windows                                   | Linux                                          | macOS                                     |
+| ---------- | ----------------------------------------- | ---------------------------------------------- | ----------------------------------------- |
+| __Unique__ | ![](.images/screenshot-win10.png)         | ![](.images/screenshot-linux.png)              | ![](.images/screenshot-macOS.png)         |
+| Menu       | ![](.images/screenshot-win10-menu.png)    | ![](.images/screenshot-linux-menu.png)         | ![](.images/screenshot-macOS-menu.png)    |
+| Options    | ![](.images/screenshot-win10-options.png) | ![](.images/screenshot-linux-options_warn.png) | ![](.images/screenshot-macOS-options.png) |
+| About      | ![](.images/screenshot-win10-about.png)   | ![](.images/screenshot-linux-about.png)        | ![](.images/screenshot-macOS-about.png)   |
 
 The following Menu options are available:
 * File
@@ -87,7 +93,7 @@ The following Menu options are available:
   * __Version 4 UUID__: Generate a Version 4 UUID (based on RNG) (__CTRL + 4__)
   * __Version 1 UUID__: Generate a Version 5 (Datetime & MAC Address) UUID (__CTRL + 5__)
   * __Special Nil UUID__: Generate a Nil UUID (_0's_) (__CTRL + 0__)
-  * __Special Nil UUID__: Generate a ULID (_0's_) (__CTRL + L__)
+  * __A ULID__: Generate a ULID (__CTRL + L__)
 * Tools
   * __Options__: Open the Options popup (__F9__)
 * Help
