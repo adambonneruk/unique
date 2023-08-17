@@ -4,8 +4,11 @@ from tkinter import messagebox
 from tkinter import filedialog
 import logging
 import re
+import os
 from unique import Unique
 from unique import is_reasonable_quantity
+from unique import is_uuid_ns_name
+from ulid import Ulid
 
 class Settings:
     """Settings for UUID Generation Class"""
@@ -15,9 +18,11 @@ class Settings:
         self.quantity = 1
         self.urn_flag = False
         self.upper_flag = False
+        self.short_flag = False
         self.namespace = ""
         self.name = ""
         self.quant_colour = "pale green"
+        self.name_colour = ""
         self.filename = ""
         self.title = ""
 
@@ -33,19 +38,53 @@ class Settings:
     def window_title(self):
         """Create or Update the window title using current file name (if applicable)"""
         if self.short_fn() != "":
-            title = "Unique: UUID Generator - " + self.short_fn()
+            title = "Unique: UUID & ULID Generator - " + self.short_fn()
         else:
-            title = "Unique: UUID Generator"
+            title = "Unique: UUID & ULID Generator"
 
         window.title(title)
 
+    def toggle_uppercase(self):
+        """turn on uppercase"""
+        if menu_var_upper.get():
+            self.upper_flag = 1
+            self.short_flag = 0
+            self.urn_flag = 0
+        else:
+            self.upper_flag = 0
+        self.__update_toggles()
+
+    def toggle_base64(self):
+        """turn on base64"""
+        if menu_var_base64.get():
+            self.short_flag = 1
+            self.upper_flag = 0
+            self.urn_flag = 0
+        else:
+            self.short_flag = 0
+        self.__update_toggles()
+
+    def toggle_urn_prefix(self):
+        """turn on base64"""
+        if menu_var_prefix.get():
+            self.urn_flag = 1
+            self.short_flag = 0
+            self.upper_flag = 0
+        else:
+            self.urn_flag = 0
+        self.__update_toggles()
+
+    def __update_toggles(self):
+        menu_var_upper.set(current_settings.upper_flag)
+        menu_var_base64.set(current_settings.short_flag)
+        menu_var_prefix.set(current_settings.urn_flag)
+
 def about():
     """Display About Message"""
-    about_me = ["Unique: The UUID Generator",
-                "Version 4.0.0",
+    about_me = ["Unique: The UUID and ULID Generation Tool",
                 "MIT Licence",
-                "Adam Bonner, 2020",
-                "https://github.com/adambonneruk/uuid-generator"]
+                "Adam Bonner, 2023",
+                "https://github.com/adambonneruk/unique"]
     messagebox.showinfo("About", "\n".join(about_me))
 
 def empty_pta():
@@ -205,7 +244,7 @@ def file_open(): #ctrl o
     else:
         logging.debug("\twe don't have an existing savefile")
         text_blob = plain_text_area.get('1.0', "end"+'-1c')
-        if text_blob.strip != "": #plain text is not empty
+        if text_blob != "": #plain text is not empty
             quit_ask = messagebox.askyesnocancel("Untitled", "Save changes to \"Untitled\"?")
             if quit_ask: #Yes
                 logging.debug("\tOption: Save & Open")
@@ -232,9 +271,13 @@ def add_uuids_to_pta(version):
     if version == 3 or version == 5:
         logging.debug("\tNamespace:%s", str(current_settings.namespace).upper())
         logging.debug("\tName: %s", str(current_settings.name))
+        if not is_uuid_ns_name(current_settings.namespace, current_settings.name):
+            options_popup()
+            return
     logging.debug("Quantity: %s", str(current_settings.quantity))
     logging.debug("URN Prefix?: %s", str(current_settings.urn_flag))
     logging.debug("Uppercase?: %s", str(current_settings.upper_flag))
+    logging.debug("Base64?: %s", str(current_settings.short_flag))
 
     for _ in range(0, current_settings.quantity):
         # Generate a UUID
@@ -247,8 +290,8 @@ def add_uuids_to_pta(version):
             generated_uuid = myuuid.upper()
         elif current_settings.urn_flag:
             generated_uuid = myuuid.prefix()
-        #elif current_settings.short_flag:
-        #    generated_uuid = myuuid.encode()
+        elif current_settings.short_flag:
+            generated_uuid = myuuid.encode()
         else:
             generated_uuid = myuuid
 
@@ -266,6 +309,31 @@ def add_uuids_to_pta(version):
         # Insert text_blob into Plain Text Area with new UUID
         logging.debug("Insert UUID at \"end\" of plain_text_area")
         plain_text_area.insert("end", generated_uuid)
+
+def add_ulids_to_pta():
+    """Append a new ULID(s) to the Plain Text Area"""
+    logging.debug("---------------------------------------------")
+    logging.debug("Append a new ULID(s) to the \"Plain Text Area\"")
+
+    for _ in range(0, current_settings.quantity):
+        # Generate a ULID
+        logging.debug("Generate a ULID:")
+        my_ulid = Ulid()
+
+        logging.debug(my_ulid)
+
+        # Get contents of "Plain Text Area" as text_blob
+        logging.debug("Get contents of \"Plain Text Area\" as text_blob")
+        text_blob = plain_text_area.get('1.0', "end"+'-1c')
+
+        # If the "Plain Text Area" isn't Empty, Newline Required
+        if text_blob != "":
+            logging.debug("\"Plain Text Area\" isn't Empty, Newline Required")
+            plain_text_area.insert("end", "\n")
+
+        # Insert text_blob into Plain Text Area with new ULID
+        logging.debug("Insert ULID at \"end\" of plain_text_area")
+        plain_text_area.insert("end", my_ulid)
 
 def exit_are_you_sure():
     """Display exit message before destorying window"""
@@ -311,8 +379,16 @@ def exit_are_you_sure():
         else: #no file, and no text area contents
             window.destroy()
 
-def options_quantity(popup):
-    """Create Quantity Entry Box"""
+def options_popup():
+    """Create a Small Popup Window to Set Application Options"""
+    logging.debug("------------------------------------------------------")
+    logging.debug("Create a Small Popup Window to Set Application Options")
+    popup = tk.Toplevel(window)
+    popup.transient(window)
+    popup.title("Options")
+    popup.geometry("204x153+150+150")
+    popup.iconbitmap(os.path.join(basedir, "icon/unique.ico"))
+
     logging.debug("Create Quantity Entry Box")
     quant_var = tk.StringVar()
 
@@ -322,14 +398,54 @@ def options_quantity(popup):
     current_settings.quant_colour = "pale green"
 
     #Create Entry Box with current colour
-    quant = tk.Entry(popup, width=6, textvariable=quant_var, bg=current_settings.quant_colour)
-    tk.Label(popup, text="Quantity").grid(sticky="w", padx=2, row=0, column=0)
-    quant.grid(row=0, column=1, pady=8)
+    quant = tk.Entry(popup, width=20, textvariable=quant_var, bg=current_settings.quant_colour)
+    tk.Label(popup, text="Quantity").grid(sticky="w", pady=5, padx=2, row=0, column=0)
+    quant.grid(row=0, column=1, pady=12, columnspan=2)
 
-    def set_quant():
+    name_var = tk.StringVar()
+
+    # Log current_settings.name
+    logging.debug("Original Name: %s", str(current_settings.name))
+    name_var.set(str(current_settings.name))
+    current_settings.name_colour = "white"
+
+    #Create Entry Box with current colour
+    name = tk.Entry(popup, width=20, textvariable=name_var, bg=current_settings.name_colour)
+    tk.Label(popup, text="Name").grid(sticky="w", pady=5, padx=2, row=2, column=0)
+    name.grid(row=2, column=1, pady=12, columnspan=2)
+
+    namespaces_var = tk.StringVar()
+    namespaces = {"dns", "url", "oid", "x500"}
+
+    # Set and Log current_settings.namespace
+    logging.debug("Current NS: %s", str(current_settings.namespace))
+    namespaces_var.set(str(current_settings.namespace))
+
+    # Create Option Box
+    tk.Label(popup, text="Namespace").grid(sticky="w", padx=2, row=1, column=0)
+    namespaces_popup = tk.OptionMenu(popup, namespaces_var, *namespaces)
+    namespaces_popup.grid(row=1, column=1, padx=2, sticky="w")
+
+    def change_namespaces(*args):
+        """Changing the namespaces"""
+        logging.debug("Event: Changing the Namespace: %s",
+                      str(args))
+
+        current_namespace = namespaces_var.get()
+        logging.debug("\tNew Selection is: %s", current_namespace)
+
+        #Update current_settings Class
+        logging.debug("\tSaving new URN namespaces Flag choice in current_settings")
+
+        current_settings.namespace = current_namespace
+
+        return True
+
+    def set_quantity():
         """Quanitiy Set Button Pressed"""
         logging.debug("Event: Quanitiy Set Button Pressed")
         new_quant = quant_var.get()
+        is_destroyable = False
         try:
             int(new_quant)
             logging.debug("\tValue is an Integer")
@@ -339,6 +455,8 @@ def options_quantity(popup):
                 current_settings.quantity = int(new_quant)
                 current_settings.quant_colour = "pale green"
                 quant.config(bg=current_settings.quant_colour) #refresh
+                is_destroyable = True
+
             else:
                 logging.debug("\t...but too low or high")
                 current_settings.quant_colour = "light goldenrod"
@@ -349,113 +467,75 @@ def options_quantity(popup):
             current_settings.quant_colour = "light coral"
             quant.config(bg=current_settings.quant_colour) #refresh
             messagebox.showerror("Quantity", "Value not an integer")
+        return is_destroyable
 
-    button = tk.Button(popup, text="Set", command=set_quant)
-    button.grid(row=0, column=2)
-
-def options_urnprefix(popup):
-    """Create URN Prefix Option Box"""
-    logging.debug("Create URN Prefix Option Box")
-
-    prefixes_var = tk.StringVar()
-    prefixes = {"Disabled", "Enabled"}
-
-    # Set and Log current_settings.urn_flag
-    logging.debug("Original URN Prefix Flag: %s", str(current_settings.urn_flag))
-    if current_settings.urn_flag:
-        prefixes_var.set("Enabled")
-    else:
-        prefixes_var.set("Disabled")
-
-    # Create Option Box
-    tk.Label(popup, text="URN Prefix").grid(sticky="w", padx=2, row=1, column=0)
-    prefixes_popup = tk.OptionMenu(popup, prefixes_var, *prefixes)
-    prefixes_popup.grid(row=1, column=1, columnspan=2, padx=2, pady=2)
-
-    def change_prefix(*args):
-        """Changing the Prefix"""
-        logging.debug("Event: Changing the URN Prefix Flag with the following arguments: %s",
-                      str(args))
-
-        current_prefix = prefixes_var.get()
-        logging.debug("\tNew Selection is: %s", current_prefix)
-
-        #Update current_settings Class
-        logging.debug("\tSaving new URN Prefix Flag choice in current_settings")
-        if current_prefix == "Enabled":
-            current_settings.urn_flag = True
+    def set_name():
+        """name Set Button Pressed"""
+        logging.debug("Event: name Set Button Pressed")
+        new_name = name_var.get()
+        logging.debug(new_name)
+        is_destroyable = False
+        if is_uuid_ns_name(current_settings.namespace, new_name):
+            current_settings.name = new_name
+            current_settings.name_colour = "pale green"
+            name.config(bg=current_settings.name_colour) #refresh
+            is_destroyable = True
         else:
-            current_settings.urn_flag = False
+            logging.debug("\t..fail check")
+            current_settings.name_colour = "light coral"
+            name.config(bg=current_settings.name_colour) #refresh
+            messagebox.showwarning("not a good", "name for the namespace")
+        return is_destroyable
 
-    prefixes_var.trace('w', change_prefix)
+    def press_button_ok():
+        if set_quantity() and change_namespaces() and current_settings.namespace == "":
+            popup.destroy()
 
-def options_uppercase(popup):
-    """Create Uppercase Option Box"""
-    logging.debug("Create Uppercase Option Box")
+        elif set_quantity() and change_namespaces() and current_settings.namespace != "" and set_name():
+            popup.destroy()
 
-    uppercase_var = tk.StringVar()
-    uppercase = {"Enabled", "Disabled"}
+    def press_button_apply():
+        set_quantity()
+        change_namespaces()
+        if current_settings.namespace != "":
+            set_name()
 
-    # Set and Log current_settings.upper_flag
-    logging.debug("Original Uppercase Flag: %s", str(current_settings.upper_flag))
-    if current_settings.upper_flag:
-        uppercase_var.set("Enabled")
-    else:
-        uppercase_var.set("Disabled")
+    button_ok = tk.Button(popup, text="OK", command=press_button_ok, width=5)
+    button_apply = tk.Button(popup, text="Apply", command=press_button_apply, width=5)
+    button_close = tk.Button(popup, text="Close", command=popup.destroy, width=5)
+    button_ok.grid(row=4, column=0, padx=5, pady=5)
+    button_apply.grid(row=4, column=1, padx=5, pady=5)
+    button_close.grid(row=4, column=2, padx=5, pady=5)
 
-    tk.Label(popup, text="Uppercase").grid(sticky="w", padx=2, row=2, column=0)
-    uppercase_popup = tk.OptionMenu(popup, uppercase_var, *uppercase)
-    uppercase_popup.grid(row=2, column=1, columnspan=2, padx=2, pady=2)
-
-    def change_uppercase(*args):
-        """Changing the Prefix"""
-        logging.debug("Event: Changing the Uppercase Flag with the following arguments: %s",
-                      str(args))
-
-        current_uppercase = uppercase_var.get()
-        logging.debug("\tNew Selection is: %s", current_uppercase)
-
-        #Update current_settings Class
-        logging.debug("\tSaving new Uppercase Flag choice in current_settings")
-        if current_uppercase == "Enabled":
-            current_settings.upper_flag = True
-        else:
-            current_settings.upper_flag = False
-
-    uppercase_var.trace('w', change_uppercase)
-
-def options_popup():
-    """Create a Small Popup Window to Set Application Options"""
-    logging.debug("------------------------------------------------------")
-    logging.debug("Create a Small Popup Window to Set Application Options")
-    popup = tk.Toplevel(window)
-    popup.transient(window)
-    popup.title("Options")
-    popup.geometry("+150+150")
-    popup.iconbitmap("./icon/unique.ico")
-
-    #Quanitity Entrybox
-    options_quantity(popup)
-
-    #URN Prefix Drop Down
-    options_urnprefix(popup)
-
-    #URN Prefix Drop Down
-    options_uppercase(popup)
-
-#logging.basicConfig(format='%(message)s', level=logging.DEBUG)
+logging.basicConfig(format='%(message)s', level=logging.WARN)
 logging.debug("-----------------\nDEBUG MODE ACTIVE\n-----------------")
 
 current_settings = Settings()
+basedir = os.path.dirname(__file__)
+
+'''
+https://www.pythonguis.com/tutorials/packaging-tkinter-applications-windows-pyinstaller/
+When you run your application, Windows looks at the executable and tries to guess what "application group"
+it belongs to. By default, any Python scripts (including your application) are grouped under the same
+"Python" group, and so will show the Python icon. To stop this happening, we need to provide Windows with
+a different application identifier.'''
+
+try:
+    from ctypes import windll  # Only exists on Windows.
+
+    myappid = "uk.bonner.unique.5-beta"
+    windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+except ImportError:
+    pass
 
 # Create the Window
 logging.info("Create the Window")
 window = tk.Tk()
 #window.title(current_settings.title)
 current_settings.window_title()
-window.iconbitmap("./icon/unique.ico")
+window.iconbitmap(os.path.join(basedir, "icon/unique.ico"))
 window.geometry("385x275+100+100")
-window.wm_attributes("-topmost", 1) #always on top
+#window.wm_attributes("-topmost", 1) #always on top
 window.protocol("WM_DELETE_WINDOW", exit_are_you_sure) #Close Buttom Prompt
 
 # Create the Menu Bar
@@ -463,18 +543,22 @@ logging.debug("Create the Menu Bar")
 menu_bar = tk.Menu(window)
 
 # Load Icons
-new_icon = tk.PhotoImage(file='icon/vswin2019/NewFile_16x.png')
-open_icon = tk.PhotoImage(file='icon/vswin2019/OpenFile_16x.png')
-save_icon = tk.PhotoImage(file='icon/vswin2019/Save_16x.png')
-saveas_icon = tk.PhotoImage(file='icon/vswin2019/SaveAs_16x.png')
-exit_icon = tk.PhotoImage(file='icon/vswin2019/CloseSolution_16x.png')
-uuid0_icon = tk.PhotoImage(file='icon/vswin2019/LevelAll_16x.png')
-uuid1_icon = tk.PhotoImage(file='icon/vswin2019/LevelOne_16x.png')
-uuid3_icon = tk.PhotoImage(file='icon/vswin2019/LevelThree_16x.png')
-uuid4_icon = tk.PhotoImage(file='icon/vswin2019/LevelFour_16x.png')
-uuid5_icon = tk.PhotoImage(file='icon/vswin2019/LevelFive_16x.png')
-options_icon = tk.PhotoImage(file='icon/vswin2019/Settings_16x.png')
-about_icon = tk.PhotoImage(file='icon/vswin2019/InformationSymbol_16x.png')
+new_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/NewFile_16x.png'))
+open_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/OpenFile_16x.png'))
+save_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/Save_16x.png'))
+saveas_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/SaveAs_16x.png'))
+exit_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/CloseSolution_16x.png'))
+uuid0_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/LevelAll_16x.png'))
+uuid1_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/LevelOne_16x.png'))
+uuid3_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/LevelThree_16x.png'))
+uuid4_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/LevelFour_16x.png'))
+uuid5_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/LevelFive_16x.png'))
+ulid_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/Sort_16x.png'))
+uppercase_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/CaseSensitive_16x.png'))
+base64_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/Binary_16x.png'))
+urn_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/Link_16x.png'))
+options_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/Settings_16x.png'))
+about_icon = tk.PhotoImage(file=os.path.join(basedir, 'icon/vswin2019/InformationSymbol_16x.png'))
 
 # Create the File Menu
 logging.debug("Create the File Menu")
@@ -500,20 +584,37 @@ uuid_menu.add_command(label="Version 1 UUID", accelerator='Ctrl+1', compound=tk.
 uuid_menu.add_command(label="Version 4 UUID", accelerator='Ctrl+4', compound=tk.LEFT,
                       image=uuid4_icon, underline=0, command=lambda: add_uuids_to_pta(4))
 uuid_menu.add_separator()
-#uuid_menu.add_command(label="Version 3 UUID", accelerator='Ctrl+3', compound=tk.LEFT,
-#                      image=uuid3_icon, underline=0, command=lambda: add_uuids_to_pta(3),
-#                      state="disabled")
-#uuid_menu.add_command(label="Version 5 UUID", accelerator='Ctrl+5', compound=tk.LEFT,
-#                      image=uuid5_icon, underline=0, command=lambda: add_uuids_to_pta(5),
-#                      state="disabled")
-#uuid_menu.add_separator()
+uuid_menu.add_command(label="Version 3 UUID", accelerator='Ctrl+3', compound=tk.LEFT,
+                      image=uuid3_icon, underline=0, command=lambda: add_uuids_to_pta(3))#,
+                      #state="disabled")
+uuid_menu.add_command(label="Version 5 UUID", accelerator='Ctrl+5', compound=tk.LEFT,
+                      image=uuid5_icon, underline=0, command=lambda: add_uuids_to_pta(5))#,
+                      #state="disabled")
+uuid_menu.add_separator()
 uuid_menu.add_command(label="Special Nil UUID", accelerator='Ctrl+0', compound=tk.LEFT,
                       image=uuid0_icon, underline=0, command=lambda: add_uuids_to_pta(0))
+uuid_menu.add_separator()
+uuid_menu.add_command(label="Sortable ULID", accelerator='Ctrl+L', compound=tk.LEFT,
+                      image=ulid_icon, underline=0, command=lambda: add_ulids_to_pta())
 menu_bar.add_cascade(label="Generate", menu=uuid_menu)
 
 # Create the Tools Menu
 logging.debug("Create the Tools Menu")
+menu_var_upper = tk.IntVar()
+menu_var_upper.set(current_settings.upper_flag)
+menu_var_base64 = tk.IntVar()
+menu_var_base64.set(current_settings.short_flag)
+menu_var_prefix = tk.IntVar()
+menu_var_prefix.set(current_settings.urn_flag)
+
 tools_menu = tk.Menu(menu_bar, tearoff=0)
+tools_menu.add_checkbutton(label=" Toggle URN Prefix", variable=menu_var_prefix, compound=tk.LEFT,
+                           image=urn_icon,  command=current_settings.toggle_urn_prefix)
+tools_menu.add_checkbutton(label=" Toggle Base64", variable=menu_var_base64, compound=tk.LEFT,
+                           image=base64_icon, command=current_settings.toggle_base64)
+tools_menu.add_checkbutton(label=" Toggle Uppercase", variable=menu_var_upper, compound=tk.LEFT,
+                           image=uppercase_icon, command=current_settings.toggle_uppercase)
+tools_menu.add_separator()
 tools_menu.add_command(label="Options...", accelerator='F9', compound=tk.LEFT,
                        image=options_icon, underline=0, command=options_popup)
 menu_bar.add_cascade(label="Tools", menu=tools_menu)
@@ -542,7 +643,11 @@ window.bind_all('<Control-Key-S>', lambda event: file_save())
 window.bind_all('<Control-Key-s>', lambda event: file_save())
 window.bind_all('<Control-Key-0>', lambda event: add_uuids_to_pta(0))
 window.bind_all('<Control-Key-1>', lambda event: add_uuids_to_pta(1))
+window.bind_all('<Control-Key-3>', lambda event: add_uuids_to_pta(3))
 window.bind_all('<Control-Key-4>', lambda event: add_uuids_to_pta(4))
+window.bind_all('<Control-Key-5>', lambda event: add_uuids_to_pta(5))
+window.bind_all('<Control-Key-L>', lambda event: add_uuids_to_pta(4))
+window.bind_all('<Control-Key-l>', lambda event: add_ulids_to_pta())
 window.bind('<F9>', lambda event: options_popup())
 window.bind('<F1>', lambda event: about())
 
