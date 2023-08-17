@@ -314,6 +314,12 @@ deactivate
 ```
 
 ---
+## Copyright Notice(s)
+- The Visual Studio Icon Pack (version 2019) is used for the GUI app, Copyright Microsoft
+  - more details: https://www.microsoft.com/en-us/download/details.aspx?id=35825
+  - licence: https://www.microsoft.com/en-us/download/details.aspx?id=35825
+
+---
 ## Contributing to this Project
 This project welcomes contributions of all types. We ask that before you start work on a feature that you would like to contribute, please read the [Contributor's Guide](.github/CONTRIBUTING.md).
 
@@ -339,7 +345,6 @@ This project seeks to build secure, versatile and robust portable software. If y
 - [OID / object identifier](https://en.wikipedia.org/wiki/Object_identifier)
 - [X.500 Distinguished Names](https://www.ibm.com/support/knowledgecenter/en/SSYKE2_7.0.0/com.ibm.java.security.component.70.doc/security-component/keytoolDocs/x500dnames.html)
 - [MAC Address](https://www.ibm.com/support/knowledgecenter/en/SSYKE2_7.0.0/com.ibm.java.security.component.70.doc/security-component/keytoolDocs/x500dnames.html)
-
 
 #### Online Useful Links/Guides
 - [code-mentor.org](https://code-mentor.org/notepad-using-tkinter-in-python-with-source-code)
