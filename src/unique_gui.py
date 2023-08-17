@@ -1,10 +1,12 @@
 """Generate UUIDs using a Simple GUI"""
 import tkinter as tk
+from tkinter import *
 from tkinter import messagebox
 from tkinter import filedialog
 import logging
 import re
 import os
+import ctypes
 from unique import Unique
 from unique import is_reasonable_quantity
 from unique import is_uuid_ns_name
@@ -25,6 +27,7 @@ class Settings:
         self.name_colour = ""
         self.filename = ""
         self.title = ""
+        self.dark_mode = False
 
     def short_fn(self):
         """Return just the short name (instead of whole path) of the current_settings.filename"""
@@ -627,12 +630,11 @@ help_menu.add_command(label="About Unique...", accelerator='F1', compound=tk.LEF
 menu_bar.add_cascade(label="Help", menu=help_menu)
 
 window.config(menu=menu_bar)
-
 # Create Plain Text Area
 logging.debug("Create Plain Text Area")
 plain_text_area = tk.Text(window)
 scroll_bar = tk.Scrollbar(window, command=plain_text_area.yview)
-plain_text_area.configure(yscrollcommand=scroll_bar.set, font=("Lucida Console", 10))
+plain_text_area.configure(yscrollcommand=scroll_bar.set, font=("Lucida Console", 10), bg="#1E1E1E", fg="#D4D4D4", insertbackground="#D4D4D4")
 scroll_bar.pack(side='right', fill="both")
 plain_text_area.pack(fill="both", expand="yes")
 
@@ -656,6 +658,8 @@ window.bind('<Control-Key-O>', lambda event: file_open())
 window.bind('<Control-Key-o>', lambda event: file_open())
 plain_text_area.bind('<Control-Key-o>', lambda event: file_open())
 plain_text_area.bind('<Control-Key-o>', lambda event: file_open())
+
+ctypes.windll['uxtheme.dll'][135](1) # dark mode support
 
 # Start the Window Main Loop
 logging.debug("------------------------------\nStart Tkinter Window Main Loop")
