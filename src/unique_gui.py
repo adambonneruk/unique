@@ -38,9 +38,9 @@ class Settings:
     def window_title(self):
         """Create or Update the window title using current file name (if applicable)"""
         if self.short_fn() != "":
-            title = "Unique: UUID Generator - " + self.short_fn()
+            title = "Unique: UUID & ULID Generator - " + self.short_fn()
         else:
-            title = "Unique: UUID Generator"
+            title = "Unique: UUID & ULID Generator"
 
         window.title(title)
 
